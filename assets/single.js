@@ -1,7 +1,30 @@
+// 6.4.4 near end
+var repoNameEl = document.querySelector("#repo-name");
 // 6.3.6 
 var limitWarningEl = document.querySelector("#limit-warning");
 // 6.3.5 (end)
 var issueContainerEl = document.querySelector("#issues-container");
+
+// 6.4.4 mid/btm
+var getRepoName = function () {
+  // 6.4.5 grab repo name from url query string
+  var queryString = document.location.search;
+  var repoName = queryString.split("=")[1];
+
+  // 6.4.5
+  if (repoName) {
+    repoNameEl.textContent = repoName;
+
+    getRepoIssues(repoName);
+  } else {
+    //  " if no repo was given, redirect to the homepage
+    document.location.replace("./index.html");
+  }
+  //getRepoIssues(repoName);
+  //repoNameEl.textContent = repoName;
+  //console.log(repoName);
+};
+
 
 var displayWarning = function (repo) {
   // 6.3.6 add text to warning container
@@ -32,12 +55,13 @@ var getRepoIssues = function (repo) {
           displayWarning(repo);
         }
       });
-    }
-    else {
-      alert("There was a problem with your request!");
+    } else {
+      // removed 6.4.5: alert("There was a problem with your request!");
+      // 6.4.5 if not successful, redirect to homepage
+      document.location.replace("./index.html");
     }
   });
-  console.log(repo);
+  // removed per 6.4.5: console.log(repo);
 };
 
 // 6.3.5
@@ -84,4 +108,5 @@ var displayIssues = function (issues) {
 
 };
 
-getRepoIssues("facebook/react");
+// removed 6.4.4 mid/btm...getRepoIssues("facebook/react");
+getRepoName();
