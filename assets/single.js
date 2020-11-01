@@ -1,5 +1,20 @@
+// 6.3.6 
+var limitWarningEl = document.querySelector("#limit-warning");
 // 6.3.5 (end)
 var issueContainerEl = document.querySelector("#issues-container");
+
+var displayWarning = function (repo) {
+  // 6.3.6 add text to warning container
+  limitWarningEl.textContent = "To see more than 30 issues, visit ";
+
+  var linkEl = document.createElement("a");
+  linkEl.textContent = "See more Issues on GitHub.com";
+  linkEl.setAttribute("href", "https://github.com/" + repo + "/issues");
+  linkEl.setAttribute("target", "_blank");
+
+  // 6.3.6 append to warning container
+  limitWarningEl.appendChild(linkEl);
+};
 
 var getRepoIssues = function (repo) {
   // 6.3.4 
@@ -11,6 +26,11 @@ var getRepoIssues = function (repo) {
       response.json().then(function (data) {
         // 6.3.5 pass response data to dom function
         displayIssues(data);
+
+        // 6.3.6 check if api has paginated issues
+        if (response.headers.get("link")) {
+          displayWarning(repo);
+        }
       });
     }
     else {
